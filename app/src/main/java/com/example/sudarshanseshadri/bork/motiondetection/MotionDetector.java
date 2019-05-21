@@ -93,6 +93,17 @@ public class MotionDetector {
         detector = new AggregateLumaMotionDetection();
         mContext = context;
         mSurface = previewSurface;
+
+    }
+
+    public void focus()
+    {
+        mCamera.autoFocus(new Camera.AutoFocusCallback() {
+            @Override
+            public void onAutoFocus(boolean success, Camera camera) {
+
+            }
+        });
     }
 
     public void setMotionDetectorCallback(MotionDetectorCallback motionDetectorCallback) {
@@ -107,6 +118,14 @@ public class MotionDetector {
 
     public AtomicReference<byte[]> getNextData() {
         return nextData;
+    }
+
+    public AtomicInteger getNextWidth() {
+        return nextWidth;
+    }
+
+    public AtomicInteger getNextHeight() {
+        return nextHeight;
     }
 
     public void setCheckInterval(long checkInterval) {
@@ -181,6 +200,11 @@ public class MotionDetector {
         }
     };
 
+    int rotationAmount = 0;
+
+    public int getRotationAmount() {
+        return rotationAmount;
+    }
 
     private SurfaceHolder.Callback surfaceCallback = new SurfaceHolder.Callback() {
 
@@ -195,11 +219,13 @@ public class MotionDetector {
 
                 if(display.getRotation() == Surface.ROTATION_0) {
                     mCamera.setDisplayOrientation(90);
-                }
+                    rotationAmount = 90;
 
+                }
 
                 if(display.getRotation() == Surface.ROTATION_270) {
                     mCamera.setDisplayOrientation(180);
+                    rotationAmount = 180;
                 }
 
 
@@ -270,6 +296,9 @@ public class MotionDetector {
         }
     }
 
+    public Camera getmCamera() {
+        return mCamera;
+    }
 
     int maxZoom;
     int currentZoom = 0;
@@ -292,7 +321,6 @@ public class MotionDetector {
         else
         {
             params.setZoom(currentZoom);
-            Log.d("HOME", params.getMaxZoom() + "");
             mCamera.setParameters(params);
         }
 
@@ -300,12 +328,17 @@ public class MotionDetector {
 
     public void zoom(double zoom)
     {
-        currentZoom = (int)(zoom);
-        Camera.Parameters params = mCamera.getParameters();
+        try {
+            currentZoom = (int) (zoom);
+            Camera.Parameters params = mCamera.getParameters();
 
-        params.setZoom(currentZoom);
-        Log.d("HOME", params.getMaxZoom() + "");
-        mCamera.setParameters(params);
+            params.setZoom(currentZoom);
+            mCamera.setParameters(params);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
 
     }
 

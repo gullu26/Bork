@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/birdhouse"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/navigation_log"
+        android:icon="@drawable/log"
+        android:title="Log" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/flower"
+        android:title="Settings" />
+
+
+
+</menu>
