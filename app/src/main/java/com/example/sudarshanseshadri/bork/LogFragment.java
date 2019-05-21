@@ -33,6 +33,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -205,6 +206,33 @@ public class LogFragment extends Fragment {
 
         }
 
+        allFiles = alphabetizeArray(allFiles);
+
+
+
         return new ArrayList<>(Arrays.asList(allFiles));
+    }
+
+
+
+
+
+    public File[] alphabetizeArray(File[] orginalFiles)
+    {
+        String[] filePaths = new String[orginalFiles.length];
+        File[] newFiles = new File[orginalFiles.length];
+
+        for (int i = 0; i < orginalFiles.length ; i++) {
+            filePaths[i] = orginalFiles[i].getAbsolutePath();
+        }
+        Arrays.sort(filePaths);
+
+        for (int i = 0; i < filePaths.length ; i++) {
+            newFiles[i] = new File(filePaths[i]);
+        }
+
+        return newFiles;
+
+
     }
 }
